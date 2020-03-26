@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #weightError {
+            display: none;
+        }
+
+        #heightError {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        function calcBMI(weight, height) {
+            return weight / (height * height) * 10000 // (height/100)^2
+        }
+
+        function checkInput(parameter, min, max, errorElement) {
+
+            let errorParagraph = document.getElementById(errorElement)
+
+            if (parameter >= min && parameter <= max) {
+                errorParagraph.style.display = 'none'
+                return true
+            } else {
+                errorParagraph.style.display = 'block'
+                return false
+            }
+        }
+
+
+        function checkBMI() {
+            let weight = document.getElementById('weight').value;
+            let height = document.getElementById('height').value;
+
+
+            if (
+                checkInput(weight, 30, 200, 'weightError') &&
+                checkInput(height, 120, 220, 'heightError')
+            ) {
+
+                let BMIResult = calcBMI(weight, height);
+
+                var x = this.BMI;
+                switch (true) {
+                    case (calcBMI(weight, height) < 18.5):
+                        alert("Underweight");
+                        document.getElementById('result').innerHTML = "דרגת סיכון: סיכון לתת- תזונה"  +  "<---BMI--->" + BMIResult 
+                        break; 
+                    case (calcBMI(weight, height) > 18.5 && calcBMI(weight, height) <= 25):
+                        alert("A proper weight");
+                        document.getElementById('result').innerHTML = "דרגת סיכון: סיכון נמוך באופן יחסי"  + "<---BMI--->" + BMIResult
+                        break;
+                    case (calcBMI(weight, height) > 25 && calcBMI(weight, height) <= 29.9):
+                        alert("Overweight");
+                        document.getElementById('result').innerHTML = "דרגת סיכון : מוגבר כאשר יש מחלות רקע נלוות"  +"<---BMI--->" +  BMIResult
+                        break;
+                    case (calcBMI(weight, height) >= 30.0 && calcBMI(weight, height) <= 34.9):
+                        alert("Obesity Rank 1");
+                        document.getElementById('result').innerHTML = "דרגת סיכון: בינוני"   +  "<---BMI--->" + BMIResult
+                        break;
+                    case (calcBMI(weight, height) >= 35.0 && calcBMI(weight, height) <= 39.9):
+                        alert("Obesity Rank 2");
+                        document.getElementById('result').innerHTML = "דרגת סיכון: חמור"  +  "<---BMI--->" + BMIResult
+                        break;
+                    case (calcBMI(weight, height) >= 40):
+                        alert("Obesity Rank 3");
+                        document.getElementById('result').innerHTML = "דרגת סיכון: חמור מאוד"  +  "<---BMI--->" + BMIResult
+                        break;
+                    default:
+                        alert("none");
+                        break;
+                }
+            }
+        }
+    </script>
+
+    Weight: <input type="text" id="weight" />
+    <p id="weightError" style="display: none;">שדה משקל לא חוקי</p>
+
+    <br>
+
+    Height: <input type="text" id="height" />
+    <p id="heightError" style="display: none;">שדה גובה לא חוקי</p>
+
+
+    <br>
+
+    <button type="button" onclick="checkBMI()">
+        Calculate your BMI
+    </button>
+    <p id="result"></p>
+
+</body>
+
+</html>
